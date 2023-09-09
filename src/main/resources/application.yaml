@@ -1,0 +1,33 @@
+spring:
+  security:
+    user:
+      name: user
+      password: password
+#    autoconfigure:
+#      exclude:
+#        - org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration
+  datasource:
+    username: admin
+    password: admin
+    url: "jdbc:h2:file:./mobookdb;AUTO_SERVER=TRUE;MODE=PostgreSQL;"
+  flyway:
+    baseline-on-migrate: true
+    enable: true
+  jpa:
+    properties:
+      jakarta:
+        persistence:
+          schema-generation:
+            scripts:
+              action: none
+              create-target: create.sql
+              create-source: metadata
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - configprops
+          - env
+          - flyway
