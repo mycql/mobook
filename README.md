@@ -6,9 +6,11 @@ This is a very simple service to demonstrate a simple REST based service for boo
 mobile phone from an inventory.
 ### How to run
 ```sh
-mvn clean package
-mvn spring-boot:run
+./mvnw clean package
+./mvnw spring-boot:run
 ```
+View the APIs by navigating to: http://localhost:8080/swagger-ui/index.html
+
 
 ### Details
 Given the limited time I had to develop this, several some functionality were left out. The objective was to implement
@@ -19,8 +21,8 @@ the features requested given a time window
 - Lack of tests
 
 ### Pre-requisites
-Flyway is used to create the database using a schema in a file based h2 (./mobookdb) and seed the data.
-The data is seeded with only one user. This user can be used to perform check-in, check-out
+[Flyway](https://flywaydb.org/) is used for db migrations using a [schema](./src/main/resources/db/migration/V1_1__create_tables.sql) in an [H2](https://h2database.com/html/main.html) in-memory db and seed the data.
+The data is [seeded](./src/main/resources/db/migration/V1_2__seed_tables.sql) with only one user. This user can be used to perform check-in, check-out. To add more users at the moment, add them to the seed data.
 ```json
 {
   "clientId": 1,
@@ -40,7 +42,7 @@ The data is seeded with these phones:
 - Motorola Nexus 6
 
 ### APIs
-Samples below assuming using httpie client
+Samples below assuming using [httpie](https://httpie.io/) client
 ```sh
 http localhost:8080/api/mobile-phone/search brand='Motorola' # POST to search the inventory by brand
 ```
@@ -158,15 +160,15 @@ http localhost:8080/api/booking/search phoneId=1 # POST search for all bookings 
 ### What I could have done better
 - Writing tests definitely
 - Applying some sort of security
-- Properly document APIs (OpenAPI)
+- CI setup
 
 ### What aspect in this exercise is interesting?
 Since this is a full on exercise, you'd have to think from how you model the data and structure the relationships.
 I think given that although it may seem simple, it does cover quite a breadth of concepts.
 
 ### What part is cumbersome?
-I didn't spend too much time on this but writing documentation like this could have been better if I
-had more time to bootstrap some proper docs framework (e.g. OpenAPI or Asciidoc)
+I was trying to integrate with FonoAPI as requested, but that project is dead so there is no 
+really working API for some time now so I left that feature out. 
 
 Also, I apologize I have no tests no coverage so that is definitely something cumbersome to achieve in
 a full service exercise although it definitely matters

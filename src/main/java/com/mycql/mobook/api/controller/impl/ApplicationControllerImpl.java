@@ -12,6 +12,9 @@ import com.mycql.mobook.api.model.response.MobilePhoneBookingEntry;
 import com.mycql.mobook.api.model.response.MobilePhoneCheckinResponse;
 import com.mycql.mobook.api.model.response.MobilePhoneCheckoutResponse;
 import com.mycql.mobook.entity.MobilePhoneBooking;
+import com.mycql.mobook.exception.ClientNotFoundException;
+import com.mycql.mobook.exception.NoAvailableModelFoundException;
+import com.mycql.mobook.exception.PhoneExistsException;
 import com.mycql.mobook.exception.ResourceNotFoundException;
 import com.mycql.mobook.service.MobilePhoneBookingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +54,7 @@ public class ApplicationControllerImpl implements ApplicationController  {
     }
 
     @Override
-    public MobilePhoneCheckoutResponse checkoutMobilePhone(MobilePhoneCheckoutRequest checkoutRequest) {
+    public MobilePhoneCheckoutResponse checkoutMobilePhone(MobilePhoneCheckoutRequest checkoutRequest) throws NoAvailableModelFoundException, ClientNotFoundException {
         var booking = this.mobilePhoneBookingService.checkout(checkoutRequest);
         var response = new MobilePhoneCheckoutResponse();
         response.setMobilePhone(mobilePhoneMapper.entityToDto(booking.getPhone()));
@@ -61,7 +64,7 @@ public class ApplicationControllerImpl implements ApplicationController  {
     }
 
     @Override
-    public MobilePhoneCheckinResponse checkinMobilePhone(MobilePhoneCheckinRequest checkinRequest) {
+    public MobilePhoneCheckinResponse checkinMobilePhone(MobilePhoneCheckinRequest checkinRequest) throws PhoneExistsException, ClientNotFoundException {
         var booking = this.mobilePhoneBookingService.checkin(checkinRequest);
         var response = new MobilePhoneCheckinResponse();
         response.setCheckinReferenceId(booking.getId());
